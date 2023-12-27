@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Image Encryptor/Decryptor</title>
+</head>
+
+<body>
+    <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <button id="HomeBtn" class="hidden" onclick="document.location.reload(true);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+            <path
+                d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+        </svg>
+    </button>
+
+    <div id="EncryptorContainer" class="hidden">
+        <div class="group-box">
+            <label>Image Path</label>
+            <div class="group-flex">
+                <input type="text" id="imagePath" placeholder="Enter image path...">
+                <button id="imageBrowse" onclick="ExploreImg(0)">Browse</button>
+            </div>
+        </div>
+
+        <div id="gb-type" class="group-box group-flex">
+            <label style="width:max-content;">Text Type:</label>
+            <div class="group-flex select">
+                <button id="selectDI" class="selected">Direct Input</button>
+                <button id="selectTF">Text File</button>
+                </select>
+            </div>
+        </div>
+
+        <div class="group-box">
+            <textarea id="textInput" placeholder="Enter text here..."></textarea>
+            <div id="textFileGroupBox" class="hidden">
+                <div class="group-flex">
+                    <input type="text" id="textFilePath" placeholder="Enter text file path...">
+                    <button id="textFileBrowse" onclick="ExploreTxt()">Browse</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="OutputPathGroupBox">
+            <label for="outputPath">Output Path</label>
+            <div class="group-flex">
+                <input type="text" id="outputPath" placeholder="Enter output path...">
+                <button id="outputPathBrowse" onclick="ExploreOut()">Browse</button>
+            </div>
+        </div>
+
+        <button id="hideButton" onclick="sendData_hide()">Encrypt and hide text in image</button>
+    </div>
+
+
+    <div id="DecryptorContainer" class="hidden">
+        <div class="group-box">
+            <label>Image Path</label>
+            <div class="group-flex">
+                <input type="text" id="imageSourcePath" placeholder="Enter image path...">
+                <button id="imageSourceBrowse" onclick="ExploreImg(1)">Browse</button>
+            </div>
+        </div>
+
+        <div id="OutputGroupBox">
+            <label>Output</label>
+            <div class="group-flex">
+                <button disabled class="float_btn" id="Savebtn" title="Save text">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path
+                            d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
+                    </svg>
+                </button>
+                <button disabled class="float_btn" id="Copybtn" title="Copy text">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path
+                            d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z" />
+                    </svg>
+                </button>
+                <div id="output" class="noText">Output will be here</div>
+            </div>
+        </div>
+
+        <button id="ShowButton" onclick="sendData_show()">Decrypt image</button>
+    </div>
+
+
+    <div id="MainContainer">
+        <div class="group-box">
+            <label id="labelChoose">Choose what you want to do</label>
+            <div class="group-flex" style="justify-content: center;margin-top: 1vw;">
+                <button id="ChooseEncrypt" style="margin-right: 2vw;border-radius: 0.4vw;">Encrypt</button>
+                <button id="ChooseDecrypt" style="border-radius: 0.4vw;">Decrypt</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="MessageContainer" class="hidden">
+        <div id="ErrorContainer" class="hidden">
+            <div id="ErrorIconContainer">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path
+                        d="M256 0c53 0 96 43 96 96v3.6c0 15.7-12.7 28.4-28.4 28.4H188.4c-15.7 0-28.4-12.7-28.4-28.4V96c0-53 43-96 96-96zM41.4 105.4c12.5-12.5 32.8-12.5 45.3 0l64 64c.7 .7 1.3 1.4 1.9 2.1c14.2-7.3 30.4-11.4 47.5-11.4H312c17.1 0 33.2 4.1 47.5 11.4c.6-.7 1.2-1.4 1.9-2.1l64-64c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-64 64c-.7 .7-1.4 1.3-2.1 1.9c6.2 12 10.1 25.3 11.1 39.5H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H416c0 24.6-5.5 47.8-15.4 68.6c2.2 1.3 4.2 2.9 6 4.8l64 64c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0l-63.1-63.1c-24.5 21.8-55.8 36.2-90.3 39.6V240c0-8.8-7.2-16-16-16s-16 7.2-16 16V479.2c-34.5-3.4-65.8-17.8-90.3-39.6L86.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l64-64c1.9-1.9 3.9-3.4 6-4.8C101.5 367.8 96 344.6 96 320H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96.3c1.1-14.1 5-27.5 11.1-39.5c-.7-.6-1.4-1.2-2.1-1.9l-64-64c-12.5-12.5-12.5-32.8 0-45.3z" />
+                </svg>
+            </div>
+            <div id="ErrorMessage">
+                This is a message I will put with JS
+            </div>
+            <button id="CloseErrorBtn" onclick="CloseMessages()">Close</button>
+        </div>
+        <div id="SuccessContainer" class="hidden">
+            <div id="SuccessIconContainer">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path
+                        d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                </svg>
+            </div>
+            <div id="SuccessMessage">
+                This is a message I will put with JS
+            </div>
+            <button id="CloseSuccessBtn" onclick="CloseMessages(true)">Close</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode === 9) {
+                event.preventDefault();
+            }
+        });
+
+        function sleep(time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
+        }
+
+        function CloseMessages(rel = false) {
+            const sc = document.getElementById("SuccessContainer");
+            const ec = document.getElementById("ErrorContainer");
+            const mc = document.getElementById("MessageContainer");
+            if (!(mc.classList.contains("hidden"))) {
+                mc.classList.add("hidden");
+            }
+            if (!(ec.classList.contains("hidden"))) {
+                ec.classList.add("hidden");
+            }
+            if (!(sc.classList.contains("hidden"))) {
+                sc.classList.add("hidden");
+                if(!rel) {
+                    sleep(250).then(() => {
+                        document.location.reload(true);
+                    });
+                }
+            }
+        }
+
+        function err(s) {
+            const mc = document.getElementById("MessageContainer");
+            const ec = document.getElementById("ErrorContainer");
+            document.getElementById("ErrorMessage").innerHTML = s;
+            if (mc.classList.contains("hidden")) {
+                mc.classList.remove("hidden");
+            }
+            if (ec.classList.contains("hidden")) {
+                ec.classList.remove("hidden");
+            }
+        }
+
+        function suc(s) {
+            const mc = document.getElementById("MessageContainer");
+            const ec = document.getElementById("SuccessContainer");
+            document.getElementById("SuccessMessage").innerHTML = s;
+            if (mc.classList.contains("hidden")) {
+                mc.classList.remove("hidden");
+            }
+            if (ec.classList.contains("hidden")) {
+                ec.classList.remove("hidden");
+            }
+        }
+
+        function ExploreImg(n) {
+            fetch('/img', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from server:', data);
+                    if (data['img'] != "") {
+                        if (n == 0) {
+                            document.getElementById("imagePath").value = data['img'];
+                        }
+                        else {
+                            document.getElementById("imageSourcePath").value = data['img'];
+                        }
+                    }
+                })
+                .catch(error => {
+                    err('Error:', error);
+                });
+        }
+
+        function ExploreTxt() {
+            fetch('/txt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from server:', data);
+                    if (data['txt'] != "") {
+                        document.getElementById("textFilePath").value = data['txt'];
+                    }
+                })
+                .catch(error => {
+                    err('Error:', error);
+                });
+        }
+
+        function ExploreOut() {
+            fetch('/output', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from server:', data);
+                    if (data['out'] != "") {
+                        document.getElementById("outputPath").value = data['out'];
+                    }
+                })
+                .catch(error => {
+                    err('Error:', error);
+                });
+        }
+
+        function sendData_hide() {
+            const imagePathEl = document.getElementById("imagePath");
+            const textPathEl = document.getElementById("textFilePath");
+            const textEl = document.getElementById("textInput");
+            const outputPathEl = document.getElementById("outputPath");
+            const typeBtn = document.getElementById("selectDI");
+
+            var imgPath = imagePathEl.value;
+            var outPath = outputPathEl.value;
+            var type = typeBtn.classList.contains('selected');
+
+            if (imgPath == "") {
+                err("Image path was not given");
+                return;
+            }
+            if (outPath == "") {
+                err("Output path was not given");
+                return;
+            }
+
+            if (type) {
+                var text = textEl.value;
+            } else {
+                var text = textPathEl.value;
+                if (text == "") {
+                    err("Text file path was not given");
+                    return;
+                }
+            }
+
+            fetch('/sendData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "imgPath": imgPath, "outPath": outPath, "txt": text, "isDirect": type })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from server:', data);
+                    if (data['rs']) {
+                        suc(data['message'])
+                    }
+                    else {
+                        err(data['message'])
+                    }
+                })
+                .catch(error => {
+                    err('Error:', error);
+                });
+        }
+
+        function sendData_show() {
+            const imagePathEl = document.getElementById("imageSourcePath");
+            var imgPath = imagePathEl.value;
+            const out = document.getElementById("output");
+
+            if (imgPath == "") {
+                err("Image path was not given");
+                return;
+            }
+
+            fetch('/sendData1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "path": imgPath })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from server:', data);
+                    if (data['rs']) {
+                        var txt = data['txt'];
+                        if (txt != "") {
+                            if (out.classList.contains("noText")) {
+                                out.classList.remove("noText");
+                            }
+                            var formattedTxt = txt.replace(/\n/g, '<br>');
+                            out.innerHTML = formattedTxt;
+                            document.getElementById("Copybtn").disabled = false;
+                            document.getElementById("Savebtn").disabled = false;
+                        }
+                    }
+                    else {
+                        err(data['message'])
+                    }
+                })
+                .catch(error => {
+                    err('Error:', error);
+                });
+        }
+
+        const b1 = document.getElementById("selectDI");
+        const b2 = document.getElementById("selectTF");
+        const r1 = document.getElementById("textInput");
+        const r2 = document.getElementById("textFileGroupBox");
+        b1.addEventListener('click', e => {
+            if (b2.classList.contains("selected")) {
+                b2.classList.remove("selected");
+                b1.classList.add("selected");
+                r1.classList.remove("hidden");
+                r2.classList.add("hidden");
+            }
+        });
+        b2.addEventListener('click', e => {
+            if (b1.classList.contains("selected")) {
+                b1.classList.remove("selected");
+                b2.classList.add("selected");
+                r2.classList.remove("hidden");
+                r1.classList.add("hidden");
+            }
+        });
+
+        const e = document.getElementById("ChooseEncrypt");
+        const ce = document.getElementById("EncryptorContainer");
+        const d = document.getElementById("ChooseDecrypt");
+        const cd = document.getElementById("DecryptorContainer");
+        const hb = document.getElementById("HomeBtn");
+        const cm = document.getElementById("MainContainer");
+        e.addEventListener('click', e => {
+            ce.classList.remove("hidden");
+            hb.classList.remove("hidden");
+            cm.classList.add("hidden")
+        });
+        d.addEventListener('click', e => {
+            cd.classList.remove("hidden");
+            hb.classList.remove("hidden");
+            cm.classList.add("hidden")
+        });
+
+        const btn1 = document.getElementById("Copybtn");
+        const btn2 = document.getElementById("Savebtn");
+        const TxtOut = document.getElementById("output");
+        btn1.addEventListener('click', e => {
+            var txt = TxtOut.innerText || TxtOut.innerHTML;
+            navigator.clipboard.writeText(txt);
+        });
+        btn2.addEventListener('click', e => {
+            var txt = TxtOut.innerText || TxtOut.innerHTML;
+            fetch('/dir', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from server:', data);
+                    if (data['out'] != "") {
+                        fetch('/saveFile', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({"path": data['out'], 'name': 'Downloaded_content.txt', "txt": txt})
+                        })
+                            .then(response1 => response1.json())
+                            .then(data1 => {
+                                console.log('Response from server:', data);
+                                if(!data1['rs']) {
+                                    err(data1['message'])
+                                }
+                                else {
+                                    suc(data1['message'])
+                                }
+                            })
+                            .catch(error1 => {
+                                err('Error:', error1);
+                            });
+                    }
+                    else {
+                        err("Path was not given")
+                    }
+                })
+                .catch(error => {
+                    err('Error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>

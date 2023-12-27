@@ -1,0 +1,389 @@
+* {
+    user-select: none;
+    transition: none;
+}
+
+body {
+    background: #31304D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+}
+
+body::-webkit-scrollbar {
+    z-index: -2;
+    background-color: transparent;
+    position: fixed;
+    width: 0.5vw;
+}
+
+body::-webkit-scrollbar-track {
+    z-index: -2;
+    display: none;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 2vw;
+    height: 3vw;
+    z-index: -2;
+}
+
+.background span {
+    --c: #B6BBC4;
+    position: fixed;
+    bottom: -27vw;
+    height: 7.5vw;
+    width: 7.5vw;
+    z-index: -1;
+    background-color: #161A30;
+    box-shadow: 0 0 7.5vw var(--c), 0 0 15vw #31304D, 0 0 22.5vw var(--c), 0 0 30vw #31304D;
+    animation: animate 10s linear infinite;
+}
+
+.background span:nth-child(1) {
+    left: 9vw;
+    animation-delay: 0.6s;
+}
+
+.background span:nth-child(2) {
+    left: 10%;
+    animation-delay: 3s;
+    width: 8.5vw;
+    height: 8.5vw;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.background span:nth-child(3) {
+    left: 20%;
+    animation-delay: 2s;
+}
+
+.background span:nth-child(4) {
+    left: 30%;
+    animation-delay: 5s;
+    width: 11.5vw;
+    height: 11.5vw;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.background span:nth-child(5) {
+    left: 40%;
+    animation-delay: 1s;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.background span:nth-child(6) {
+    left: 56%;
+    animation-delay: 7s;
+}
+
+.background span:nth-child(7) {
+    left: 50%;
+    animation-delay: 9s;
+    width: 14vw;
+    height: 14vw;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.background span:nth-child(8) {
+    left: 69%;
+    animation-delay: 8s;
+}
+
+.background span:nth-child(9) {
+    left: 80%;
+    animation-delay: 6s;
+    width: 13vw;
+    height: 13vw;
+}
+
+.background span:nth-child(10) {
+    left: 90%;
+    animation-delay: 4s;
+}
+
+@keyframes animate {
+    0% {
+        transform: translateY(-300vh) rotate(0deg);
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+#HomeBtn {
+    position: absolute;
+    left: 2vw;
+    top: 1vw;
+    width: 3vw;
+    height: 3vw;
+    padding: 0.4vw;
+    border-radius: 0.7vw;
+}
+
+#EncryptorContainer, #DecryptorContainer, #MainContainer {
+    width: 47vw;
+    height: 40vw;
+    padding-inline: 2.5vw;
+    padding-bottom: 2vw;
+    padding-top: 1.2vw;
+    background: rgba(202, 199, 193, 0.828);
+    border-radius: 2vw;
+    box-shadow: 0 1vw 7.5vw rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(1.2);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#DecryptorContainer, #MainContainer {
+    height: fit-content;
+}
+
+#MainContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 20vw;
+}
+
+#labelChoose {
+    width: 100vw !important;
+    text-align: center;
+}
+
+.group-box {
+    margin-bottom: 1vw;
+    height: min-content;
+    width: min-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.group-flex {
+    display: flex;
+    flex-direction: row;
+}
+
+label {
+    display: block;
+    margin-bottom: 1vw;
+    font-weight: bold;
+    font-size: 1.5vw;
+}
+
+input,
+textarea {
+    width: 39vw;
+    height: 3.5vw;
+    padding: 1.5vw;
+    box-sizing: border-box;
+    margin-bottom: 2vw;
+    font-size: 1.2vw;
+    border-radius: 0;
+    outline-width: 0;
+    border: none;
+}
+
+button {
+    padding-inline: 1.5vw;
+    background: #eef0f3;
+    color: #acb0b6;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5vw;
+    height: 3.5vw;
+    transition: color ease-in-out 0.2s;
+}
+
+button:hover:not(.select button) {
+    color: #585859;
+}
+
+button:active:not(.select button) {
+    transition: none;
+    color: #7c7c7c;
+    background: #e2e3e6;
+}
+
+.select {
+    margin-left: 2.7vw;
+    margin-top: -0.45vw;
+}
+
+.select button {
+    height: 2.75vw;
+    font-size: 1.2vw;
+    transition: none !important;
+    width: 10vw;
+}
+
+.selected {
+    background: #31304D;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#OutputPathGroupBox {
+    margin-bottom: -1vw !important;
+}
+
+#outputExtCon {
+    height: 3.5vw;
+    display: flex;
+    align-items: end;
+}
+
+#outputExt {
+    font-size: 2vw;
+    margin-left: 0.3vw;
+}
+
+textarea {
+    width: 47vw;
+    resize: none;
+    height: 11vw;
+    padding: 0.45vw;
+}
+
+#hideButton {
+    position: absolute;
+    bottom: 2vw;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#OutputPathGroupBox {
+    position: absolute;
+    bottom: 8vw;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#gb-type {
+    margin-bottom: 1.7vw;
+}
+
+#textFileGroupBox {
+    margin-top: 2.5vw;
+}
+
+
+
+
+
+
+#MessageContainer {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: rgba(16, 16, 16, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#ErrorContainer, #SuccessContainer {
+    background: rgba(217, 214, 210, 0.828);
+    width: 30vw;
+    height: max-content;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.4vw;
+    padding: 2vw;
+    box-sizing: border-box;
+    position: absolute;
+}
+
+#ErrorIconContainer, #SuccessIconContainer {
+    width: 5vw;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5vw;
+}
+
+#ErrorIconContainer svg, #SuccessIconContainer svg {
+    width: 100%;
+    height: 100%;
+}
+
+#ErrorMessage, #SuccessMessage {
+    text-align: center;
+    color: #333;
+    font-size: 1.3vw;
+    margin-bottom: 1vw;
+}
+
+#CloseErrorBtn, #CloseSuccessBtn {
+    border-radius: 0.2vw;
+}
+
+#output {
+    background:rgb(243, 241, 236);
+    padding: 0.5vw;
+    margin-bottom: 2vw;
+    width: 100%;
+    user-select: text;
+    height:17.5vw;
+    overflow-y: scroll;
+    word-wrap: break-word;
+    font-size: 1.12vw;
+    color: black;
+}
+
+.noText {
+    color: rgb(109, 109, 109) !important;
+}
+
+.float_btn {
+    position: absolute;
+    border-radius: 0.3vw;
+    padding: 0.2vw;
+    padding-left: 0.31vw;
+    background: rgba(149, 149, 149, 0.791);
+    height: max-content;
+    width: max-content;
+    right: 3vw;
+    top: 11vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.float_btn:active{
+    background: rgba(118, 118, 118, 0.791) !important;
+}
+
+.float_btn svg {
+    width: 1.5vw;
+    margin-right: 0.1vw;
+}
+
+#Copybtn {
+    right: 6vw;
+}
+
+button:disabled {
+    display: none;
+}
